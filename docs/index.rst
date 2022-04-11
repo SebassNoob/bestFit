@@ -21,8 +21,7 @@ my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]
 def check_for_anomaly(x,y):
   return None
 line = bf.create_line_from_raw(coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
-line.plot()
-::
+line.plot()::
 
 
 
@@ -142,7 +141,7 @@ FUNCTIONS
 Creates a line from a .txt (only) file.
 An example of a txt file:
 
-__BEGIN TXT FILE__
+___BEGIN TXT FILE___
 
 1,2
 
@@ -154,7 +153,7 @@ __BEGIN TXT FILE__
 
 0,0
 
-__END TXT FILE__
+___END TXT FILE___
 
 path: the path to your file
 
@@ -168,8 +167,7 @@ eg.
 def check(x,y):
   if y>0:
     return True
-  return False
-::
+  return False::
 
 ``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)``
 
@@ -189,7 +187,7 @@ eg.
 def check(x,y):
   if y>0:
     return True
-  return False
-::
+  return False::
+
 
 The end:)
