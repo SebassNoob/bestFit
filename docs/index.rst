@@ -14,20 +14,14 @@ This is how to plot a basic graph based on a list of coordinates.
 2. To import the module, use ``import bestFit.main as bf`` (or any similar shorthand)
 3. Define a list of coordinates, for example: ``my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]`` 
 4. Plot the graph like this:
+
 .. code-block:: python3
-
 import bestFit.main as bf
-
 my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]
-
 def check_for_anomaly(x,y):
-
   return None
-
 line = bf.create_line_from_raw(coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
-
 line.plot()
-
 ::
 
 
@@ -148,7 +142,8 @@ FUNCTIONS
 Creates a line from a .txt (only) file.
 An example of a txt file:
 
-----------
+__BEGIN TXT FILE__
+
 1,2
 
 3,4
@@ -158,7 +153,8 @@ An example of a txt file:
 -1.2,4
 
 0,0
-----------
+
+__END TXT FILE__
 
 path: the path to your file
 
@@ -169,15 +165,10 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 eg.
 
 .. code-block:: python3
-
 def check(x,y):
-
   if y>0:
-
     return True
-
   return False
-
 ::
 
 ``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)``
@@ -195,15 +186,10 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 eg.
 
 .. code-block:: python3
-
 def check(x,y):
-
   if y>0:
-
     return True
-
   return False
-
 ::
 
 The end:)
