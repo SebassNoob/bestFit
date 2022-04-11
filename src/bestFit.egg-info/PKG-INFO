@@ -1,14 +1,22 @@
 Metadata-Version: 2.1
 Name: bestFit
-Version: 0.1.2
-Summary: UNKNOWN
+Version: 0.2
+Summary: A package for plotting best fit lines.
 Home-page: UNKNOWN
 Author: SebassNoob
 Author-email: sebastian.ong@hotmail.com
 License: MIT
 Platform: UNKNOWN
 Requires-Python: >=3.6
+Description-Content-Type: text/markdown
 License-File: LICENCE.rst
 
-UNKNOWN
+## bestFit
+Simple wrapper to plot the best fit line for a given set of coordinates.
+
+Installation:
+``pip install bestFit``
+
+Docs: https://bestfit.readthedocs.io/en/latest/
+
 

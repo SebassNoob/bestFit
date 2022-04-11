@@ -169,7 +169,10 @@ def check(x,y):
     return True
   return False::
 
-``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)``
+Returns a Line() object.
+
+
+``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)`` 
 
 Creates a line from a list of tuples containing x,y points.
 
@@ -189,5 +192,7 @@ def check(x,y):
     return True
   return False::
 
+
+Returns a Line() object.
 
 The end:)
