@@ -178,18 +178,24 @@ class Line:
 
 
 
-    
+
     
 
 #plots coordinates in a txt file
-def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
-  if not callable(anomaly_check):
-    raise TypeError("anomaly_check must be a function that has arguments: (x,y) which returns True if the point is an anomaly. ")
+def create_line_from_file(*,path: str, n_power: int=1, anomaly_check=None):
+  #test anomaly_check function
+  if anomaly_check:
+    try:
+      anomaly_check(0,0)
+    except TypeError:
+      raise TypeError("anomaly_check must be function that has parameters (x,y) and return True if coodinate is an anomaly, else return None." )
+    
   with open(path,"r") as f:
     
     points = []
     file =f.readlines()
     line = 0
+    
     for coord in file:
       line+=1
       coord.replace('\n','')
@@ -198,8 +204,16 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
         
       except ValueError:
         raise ValueError(f"expected 2 strings separated with ',', got '{coord}' in line: {line}")
+
+      
+      
+      
       try:
-        coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+        if anomaly_check:
+          coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+        else:
+          coord = Coordinate(x,y)
+          
       except ValueError:
         raise TypeError(f"expected strings to be able to be converted to float, got {x,y} in line: {line}")
       
@@ -214,26 +228,31 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
 
     
 #uses a list of tuples as coordinates
-def create_line_from_raw(*,coords:list, n_power: int, anomaly_check):
+def create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None):
+
+  #test anomaly_check
+  if anomaly_check:
+    try:
+      anomaly_check(0,0)
+    except TypeError:
+      raise TypeError("anomaly_check must be function that has parameters (x,y) and return True if coodinate is an anomaly, else return None." )
+    
   points = []
-  if not callable(anomaly_check):
-    raise TypeError("anomaly_check must be a function that has arguments: (x,y) which returns True if the point is an anomaly. ")
+  
   for coord in coords:
     if not isinstance(coord, tuple):
       raise TypeError("all coodinates in provided list must be tuple")
     if len(coord) !=2:
       raise IndexError("all coordinates must only have length of 2 in form (x,y)")
     x,y = coord
-
-    coord = Coordinate(x,y, anomaly_check(int(x),int(y)))
+    
+    if anomaly_check:
+      coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+    else:
+      coord = Coordinate(x,y)
+          
     points.append(coord)
   line = Line(points, n_power)
 
   return line
 
-
-
-
-
-
-#fix plot_graph to power 2 without smoothen_graoh to have messed up values
