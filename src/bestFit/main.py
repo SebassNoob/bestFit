@@ -46,7 +46,7 @@ class Line:
   
 
   def smoothen_graph(self, accuracy: int= None):
-    if accuracy ==None:
+    if accuracy is None:
       return
     # defines maximum x point and minimum x point
     range_max, range_min = (sorted(self.x_points)[len(self.x_points)-1],sorted(self.x_points)[0])
