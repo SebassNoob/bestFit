@@ -8,10 +8,15 @@
 Simple wrapper to plot the best fit line for a given set of coordinates.
 
 Installation:
-``pip install bestFit``
+``pip install bestFit==``
 
-In a .py file, write ``import bestFit.main``, then see the docs for the list of available classes and methods, which is the section following ``quickstart``.
+In a .py file, import with ``import bestFit.main``.
+See the docs for the list of available classes and methods, which is the section following ``quickstart``.
 
 Docs: https://bestfit.readthedocs.io/en/latest/
 
-Github page: https://github.com/sebass-but-ab/bestFit
+Github page: https://github.com/SebassNoob/bestFit
+
+Open a new issue or pull request to contribute! Your help is much appreciated <3
+
+
