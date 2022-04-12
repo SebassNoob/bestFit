@@ -20,7 +20,9 @@ class Line:
     self.y_points = []
     self.invalid_x_points=[]
     self.invalid_y_points = []
-    self.polynomial_coefficients = self.solved_y=self.solved_x =self.smoothness= None
+    self.polynomial_coefficients =self.smoothness= None
+    self.solved_x = []
+    self.solved_y = []
     self.n = n_power
     for coord in list_of_coords:
       if coord.anomaly == False:
@@ -39,8 +41,27 @@ class Line:
     except TypeError:
       raise IndexError("number of points must be >= 1")
     #default value of solved x and y
-    self.solved_y = np.polyval(self.polynomial_coefficients,self.x_points)
-    self.solved_x = self.x_points
+    unsorted_solved_y =  np.polyval(self.polynomial_coefficients,self.x_points)
+    unsorted_solved_x = self.x_points
+
+    #sorts x and y 
+    x_y = []
+    #constructs tuple of x,y coords
+    for num in unsorted_solved_x:
+      tuple_constructor = (num, unsorted_solved_y[unsorted_solved_x.index(num)])
+      x_y.append(tuple_constructor)
+    #sorts based on x value
+    x_y = sorted(x_y)
+
+    #unpack tuple
+    for tuple in x_y:
+
+      self.solved_x.append(tuple[0])
+      self.solved_y.append(tuple[1])
+
+    
+    
+
 
 
   
@@ -62,12 +83,13 @@ class Line:
 
 
     mean = abs(statistics.mean(average_dist))
+
     new_points = []
     
     while range_min <= range_max:
-      
-      range_min+= mean/accuracy
       new_points.append(range_min)
+      range_min+= mean/accuracy
+      
 
 
 
@@ -83,6 +105,7 @@ class Line:
   #actually plots a line 
   def plot(self):
     
+
     plt.plot(self.solved_x,self.solved_y,'-') 
 
     plt.plot(self.x_points+self.invalid_x_points,self.y_points+self.invalid_y_points,'o')
@@ -210,3 +233,7 @@ def create_line_from_raw(*,coords:list, n_power: int, anomaly_check):
 
 
 
+
+
+
+#fix plot_graph to power 2 without smoothen_graoh to have messed up values
