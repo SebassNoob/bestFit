@@ -15,31 +15,34 @@ This is how to plot a basic graph based on a list of coordinates.
 3. Define a list of coordinates, for example: ``my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]`` 
 4. Plot the graph like this:
 
-::
+.. code-block:: python
+
   import bestFit.main as bf
+	
   my_coords = [(0,0),(1,3),(2,3),(4,7),( 8,0),(-1,0.33)]
-  def check_for_anomaly(x,y):
-    return None
+  
+	def check_for_anomaly(x,y):
+  	return None
   line = bf.create_line_from_raw(coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
   line.plot()
 
 
 
-Documentation
-=============
 
 
-CLASSES
---------
+
+Classes
+=========
 
 ``class Coordinate(x: str or float, y: str or float, anomaly: bool = False)``
-
+=============
 
 The basic coordinate: contains a x and y variable, as well as if the coordinate is an anomaly. 
 
 Anomaly values are ignored when plotting a best fit line.
 
 Attributes:
+-------
 
 ``x`` (float)
 
@@ -54,7 +57,7 @@ A y coordinate.
 Defaults to False. If True, point is considered an anomaly and will not be taken into consideration when plotting.
 
 Methods:
-
+-------
 ``__str__``
 
 returns (x,y)
@@ -62,14 +65,14 @@ returns (x,y)
 
 
 ``class Line(list_of_coords: list, n_power: int)``
-
+========
 
 A Line object. ``list_of_coords`` is a list containing Coordinate objects.
 
 ``n_power`` refers to the polynomial power when finding the best fit line. For example, when ``n_power = 1``, Line is linear in the form y = mx + c, but when ``n_power = 2``, Line is a curve in the form y=ax^2 + bx + c.
 
 Attributes:
-
+----------
 ``x_points`` (list)
 
 A list of x points provided
@@ -108,7 +111,7 @@ The power of n used for calculation.
 
 
 Methods:
-
+--------
 ``smoothen_graph(accuracy: int= None)``
 
 Smooths a graph. Useful when ``n_power > 1``
@@ -133,11 +136,11 @@ Removes a point from the Line object. Parameter passed must be a Coordinate obje
 
 returns None
 
-FUNCTIONS
----------
+Functions
+===========
 
 ``create_line_from_file(*,path: str, n_power: int=1, anomaly_check)``
-
+=============
 Creates a line from a .txt (only) file.
 An example of a txt file:
 
@@ -163,17 +166,18 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 
 eg.
 
-::
+.. code-block:: python
+
   def check(x,y):
     if y>0:
       return True
     return False
 
-Returns a Line() object.
+Returns a ``Line()`` object.
 
 
 ``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)`` 
-
+===================
 Creates a line from a list of tuples containing x,y points.
 
 coords: list of coords
@@ -186,13 +190,14 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 
 eg.
 
-::
+.. code-block:: python
+
   def check(x,y):
     if y>0:
       return True
     return False
 
 
-Returns a Line() object.
+Returns a ``Line()`` object.
 
 The end:)
