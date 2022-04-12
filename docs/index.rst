@@ -15,7 +15,7 @@ This is how to plot a basic graph based on a list of coordinates.
 3. Define a list of coordinates, for example: ``my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]`` 
 4. Plot the graph like this:
 
-.. code-block:: python3
+::
   import bestFit.main as bf
   my_coords = [(0,0),(1,3),(2,3),(4,7),( 8,0),(-1,0.33)]
   def check_for_anomaly(x,y):
@@ -163,11 +163,11 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 
 eg.
 
-.. code-block:: python3
+::
   def check(x,y):
     if y>0:
       return True
-    return False::
+    return False
 
 Returns a Line() object.
 
@@ -186,11 +186,11 @@ anomaly_check: a function of parameters (x,y). Checks if a point specified is in
 
 eg.
 
-.. code-block:: python3
+::
   def check(x,y):
     if y>0:
       return True
-    return False::
+    return False
 
 
 Returns a Line() object.
