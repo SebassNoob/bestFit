@@ -20,7 +20,9 @@ class Line:
     self.y_points = []
     self.invalid_x_points=[]
     self.invalid_y_points = []
-    self.polynomial_coefficients = self.solved_y=self.solved_x =self.smoothness= None
+    self.polynomial_coefficients =self.smoothness= None
+    self.solved_x = []
+    self.solved_y = []
     self.n = n_power
     for coord in list_of_coords:
       if coord.anomaly == False:
@@ -39,8 +41,27 @@ class Line:
     except TypeError:
       raise IndexError("number of points must be >= 1")
     #default value of solved x and y
-    self.solved_y = np.polyval(self.polynomial_coefficients,self.x_points)
-    self.solved_x = self.x_points
+    unsorted_solved_y =  np.polyval(self.polynomial_coefficients,self.x_points)
+    unsorted_solved_x = self.x_points
+
+    #sorts x and y 
+    x_y = []
+    #constructs tuple of x,y coords
+    for num in unsorted_solved_x:
+      tuple_constructor = (num, unsorted_solved_y[unsorted_solved_x.index(num)])
+      x_y.append(tuple_constructor)
+    #sorts based on x value
+    x_y = sorted(x_y)
+
+    #unpack tuple
+    for tuple in x_y:
+
+      self.solved_x.append(tuple[0])
+      self.solved_y.append(tuple[1])
+
+    
+    
+
 
 
   
@@ -62,12 +83,13 @@ class Line:
 
 
     mean = abs(statistics.mean(average_dist))
+
     new_points = []
     
     while range_min <= range_max:
-      
-      range_min+= mean/accuracy
       new_points.append(range_min)
+      range_min+= mean/accuracy
+      
 
 
 
@@ -83,6 +105,7 @@ class Line:
   #actually plots a line 
   def plot(self):
     
+
     plt.plot(self.solved_x,self.solved_y,'-') 
 
     plt.plot(self.x_points+self.invalid_x_points,self.y_points+self.invalid_y_points,'o')
@@ -155,18 +178,24 @@ class Line:
 
 
 
-    
+
     
 
 #plots coordinates in a txt file
-def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
-  if not callable(anomaly_check):
-    raise TypeError("anomaly_check must be a function that has arguments: (x,y) which returns True if the point is an anomaly. ")
+def create_line_from_file(*,path: str, n_power: int=1, anomaly_check=None):
+  #test anomaly_check function
+  if anomaly_check:
+    try:
+      anomaly_check(0,0)
+    except TypeError:
+      raise TypeError("anomaly_check must be function that has parameters (x,y) and return True if coodinate is an anomaly, else return None." )
+    
   with open(path,"r") as f:
     
     points = []
     file =f.readlines()
     line = 0
+    
     for coord in file:
       line+=1
       coord.replace('\n','')
@@ -175,8 +204,16 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
         
       except ValueError:
         raise ValueError(f"expected 2 strings separated with ',', got '{coord}' in line: {line}")
+
+      
+      
+      
       try:
-        coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+        if anomaly_check:
+          coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+        else:
+          coord = Coordinate(x,y)
+          
       except ValueError:
         raise TypeError(f"expected strings to be able to be converted to float, got {x,y} in line: {line}")
       
@@ -191,22 +228,31 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check):
 
     
 #uses a list of tuples as coordinates
-def create_line_from_raw(*,coords:list, n_power: int, anomaly_check):
+def create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None):
+
+  #test anomaly_check
+  if anomaly_check:
+    try:
+      anomaly_check(0,0)
+    except TypeError:
+      raise TypeError("anomaly_check must be function that has parameters (x,y) and return True if coodinate is an anomaly, else return None." )
+    
   points = []
-  if not callable(anomaly_check):
-    raise TypeError("anomaly_check must be a function that has arguments: (x,y) which returns True if the point is an anomaly. ")
+  
   for coord in coords:
     if not isinstance(coord, tuple):
       raise TypeError("all coodinates in provided list must be tuple")
     if len(coord) !=2:
       raise IndexError("all coordinates must only have length of 2 in form (x,y)")
     x,y = coord
-
-    coord = Coordinate(x,y, anomaly_check(int(x),int(y)))
+    
+    if anomaly_check:
+      coord = Coordinate(x,y, anomaly_check(float(x),float(y)))
+    else:
+      coord = Coordinate(x,y)
+          
     points.append(coord)
   line = Line(points, n_power)
 
   return line
-
-
 
