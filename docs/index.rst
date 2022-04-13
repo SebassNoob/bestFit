@@ -10,7 +10,7 @@ Quickstart
 ==========
 This is how to plot a basic graph based on a list of coordinates.
 
-1. Create a file named ``index.py``
+1. Create a file named ``index.py`` in root
 2. To import the module, use ``import bestFit.main as bf`` (or any similar shorthand)
 3. Define a list of coordinates, for example: ``my_coords = [(0,0),(1,3),(2,3),(4,7),(8,0),(-1,0.33)]`` 
 4. Plot the graph like this:
@@ -22,12 +22,15 @@ This is how to plot a basic graph based on a list of coordinates.
   my_coords = [(0,0),(1,3),(2,3),(4,7),( 8,0),(-1,0.33)]
   
 	def check_for_anomaly(x,y):
+	#checks for anomalies in points, eg: if the x coordinate of a given point is >1000, return True else return False
+	if x>1000:
+		return True
   	return None
   line = bf.create_line_from_raw(coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
   line.plot()
-
-
-
+  
+5. Then, run in console: ``python3 index.py``
+6. A graph with poins
 
 
 
@@ -52,7 +55,7 @@ A x coordinate.
 
 A y coordinate.
 
-``anomaly`` (bool)
+``anomaly`` (bool, optional)
 
 Defaults to False. If True, point is considered an anomaly and will not be taken into consideration when plotting.
 
@@ -158,11 +161,11 @@ An example of a txt file:
 
 
 
-path: the path to your file
+path (str): the path to your file
 
-n_power: the n_power of your line (See Line object)
+n_power (int, optional): the n_power of your line (See Line object)
 
-anomaly_check: a function of parameters (x,y). Checks if a point specified is invalid and returns True if so.
+anomaly_check (function, optional): a function of parameters (x,y). Checks if a point specified is invalid and returns True if so.
 
 eg.
 
@@ -176,17 +179,17 @@ eg.
 Returns a ``Line()`` object.
 
 
-``create_line_from_raw(*,coords:list, n_power: int, anomaly_check)`` 
+``create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None)`` 
 ===================
 Creates a line from a list of tuples containing x,y points.
 
-coords: list of coords
+coords (list): list of coords
 
 eg. ``hi = [(0,0),(1,1),(2,3)]``
 
-n_power: the n_power of your line (See Line object)
+n_power (int, optional): the n_power of your line (See Line object)
 
-anomaly_check: a function of parameters (x,y). Checks if a point specified is invalid and returns True if so.
+anomaly_check (function, optional): a function of parameters (x,y). Checks if a point specified is invalid and returns True if so.
 
 eg.
 
