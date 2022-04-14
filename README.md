@@ -15,6 +15,9 @@ Installation:
 In a .py file, import with ``import bestFit.main``.
 See the docs for the list of available classes and methods to use, which is the section following ``quickstart``.
 
+In a .py file, import with ``import bestFit.main``.
+See the docs for the list of available classes and methods, which is the section following ``quickstart``.
+
 Docs: https://bestfit.readthedocs.io/en/latest/
 
 Github page: https://github.com/SebassNoob/bestFit
