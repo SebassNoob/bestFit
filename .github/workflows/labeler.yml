@@ -1,0 +1,9 @@
+code changes:
+- src/**/*
+
+
+docs: 
+- docs/*
+
+readme:
+- README.md
