@@ -15,7 +15,9 @@ class Coordinate:
 
 #a set of coordinates
 class Line:
-  def __init__(self, list_of_coords: list, n_power: int):
+  def __init__(self, list_of_coords: list, n_power: int, linestyle: str ="-", name:str = None):
+    self.name = name
+    self.linestyle = linestyle
     self.x_points = []
     self.y_points = []
     self.invalid_x_points=[]
@@ -92,8 +94,6 @@ class Line:
       
 
 
-
-
     
     #solves for y given eqn and x
     self.smoothness = accuracy
@@ -103,7 +103,7 @@ class Line:
     return (self.solved_x, self.solved_y)
 
   #actually plots a line 
-  def plot(self):
+  def single_plot(self):
     
 
     plt.plot(self.solved_x,self.solved_y,'-') 
@@ -182,7 +182,7 @@ class Line:
     
 
 #plots coordinates in a txt file
-def create_line_from_file(*,path: str, n_power: int=1, anomaly_check=None):
+def create_line_from_file(*,line_name:str =None,linestyle = None, path: str, n_power: int=1, anomaly_check=None):
   #test anomaly_check function
   if anomaly_check:
     try:
@@ -220,7 +220,7 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check=None):
       points.append(coord)
     f.close()
     
-    line = Line(points, n_power)
+    line = Line(points, n_power, linestyle, line_name)
     return line
 
 
@@ -228,7 +228,7 @@ def create_line_from_file(*,path: str, n_power: int=1, anomaly_check=None):
 
     
 #uses a list of tuples as coordinates
-def create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None):
+def create_line_from_raw(*,line_name:str =None,linestyle = None,coords:list, n_power: int=1, anomaly_check=None):
 
   #test anomaly_check
   if anomaly_check:
@@ -252,7 +252,7 @@ def create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None):
       coord = Coordinate(x,y)
           
     points.append(coord)
-  line = Line(points, n_power)
+  line = Line(points, n_power, linestyle, line_name)
 
   return line
 
