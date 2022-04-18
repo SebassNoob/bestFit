@@ -89,7 +89,14 @@ This defaults to a string of ``numpy.ndarray`` with the coefficients of the line
 The style of the best fit line and the points plotted. Defaults to "-" and "o" respectively.
 Available types:
 
-
+.. image:: ../assets/styles.jpeg
+  :width: 400
+  :alt: types of styles accepted
+.. image:: ../assets/colours.jpeg
+  :width: 400
+  :alt: types of colors accepted
+ 
+Adapted from https://matplotlib.org/2.1.2/api/_as_gen/matplotlib.pyplot.plot.html 
 
 eg:
 
