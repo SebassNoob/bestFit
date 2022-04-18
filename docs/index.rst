@@ -89,7 +89,7 @@ This defaults to a string of ``numpy.ndarray`` with the coefficients of the line
 The style of the best fit line and the points plotted. Defaults to "-" and "o" respectively.
 Available types:
 
-#show img here
+
 
 eg:
 
