@@ -68,10 +68,8 @@ class Line:
       self.solved_y.append(tuple[1])
 
 
-    del unsorted_solved_x, unsorted_solved_y, x_y 
+    return
     
-    
-
 
   
   #also calcs best line but with set x coords
