@@ -44,22 +44,20 @@ class Line:
       #array? of a,b,c... in ax^n + bx^n-1 + cx^n-2... 
       self.polynomial_coefficients = np.polyfit(self.x_points, self.y_points, self.n)
       if self.name is None:
-        self.name = self.polynomial_coefficients
+        self.name = self.polynomial_coefficients.toList()
 
     except TypeError:
       raise IndexError("number of points must be >= 1")
     #default value of solved x and y
     unsorted_solved_y =  np.polyval(self.polynomial_coefficients,self.x_points)
     unsorted_solved_x = self.x_points
-
-    #sorts x and y 
-    x_y = []
     #constructs tuple of x,y coords
-    for num in unsorted_solved_x:
-      tuple_constructor = (num, unsorted_solved_y[unsorted_solved_x.index(num)])
-      x_y.append(tuple_constructor)
+    def construct(x,y):
+      return (x,y)
+    #sorts x and y 
+    mapped = map(construct, unsorted_solved_x,unsorted_solved_y)
     #sorts based on x value
-    x_y = sorted(x_y)
+    x_y = sorted(list(mapped))
 
     #unpack tuple
     for tuple in x_y:
