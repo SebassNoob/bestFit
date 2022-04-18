@@ -36,7 +36,7 @@ This is how to plot a basic graph based on a list of coordinates.
 6. A line with name ``mygraph`` a green solid plotted line, and points on that line displayed as green circles, sould be shown. 
 
 
-Classes
+**Classes**
 =========
 
 ``class Coordinate(x: str or float, y: str or float, anomaly: bool = False)``
@@ -124,21 +124,21 @@ A list of x points that are considered "anomalies". See Coordinate class.
 
 A list of y points that are considered "anomalies". See Coordinate class.
 
-``polynomial_coefficients`` (numpy.ndarray)
+``polynomial_coefficients`` (list)
 
-The coefficients to the solved line equation. eg. [1.0 2.0 3.0] is x^2 + 2x + 3
+The coefficients to the solved line equation. eg. [1.0,2.0,3.0] is x^2 + 2x + 3
 
 ``solved_y`` (list)
 
-Defaults to y_points. If smoothen_graph is called (See smoothe_graph class function), this will contain more values for y solved with polynomial_coefficients.
+Defaults to y_points. If smoothen_line is called (See smoothe_line class function), this will contain more values for y solved with polynomial_coefficients.
 
 ``solved_x`` (list)
 
-Defaults to x_points. If smoothen_graph is called (See smoothe_graph class function), this will contain more values for x solved with polynomial_coefficients.
+Defaults to x_points. If smoothen_line is called (See smoothen_line class function), this will contain more values for x solved with polynomial_coefficients.
 
 ``self.smoothness`` (int)
 
-The "smoothness" of the graph. A greater value means more smooth.
+The "smoothness" of the graph. A greater value means more smooth. Defaults to None
 
 ``n`` (int)
 
@@ -177,7 +177,7 @@ Removes a point from the Line object. Parameter passed must be a Coordinate obje
 
 returns None
 
-Functions
+**Functions**
 ===========
 
 ``create_line_from_file(*,line_name:str =None,linestyle = None,pointstyle=None, path: str, n_power: int=1, anomaly_check=None)``
