@@ -5,5 +5,7 @@ code changes:
 docs: 
 - docs/*
 
-readme:
+.md/.rst changes:
 - README.md
+- SECURITY.md
+- LICENCE.rst
