@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import statistics
-import json
+
 
 class Coordinate:
   def __init__(self, x: str or float, y: str or float, anomaly: bool = False):
