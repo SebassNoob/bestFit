@@ -3,6 +3,7 @@ import numpy as np
 import math
 import statistics
 
+
 class Coordinate:
   def __init__(self, x: str or float, y: str or float, anomaly: bool = False):
     self.x = float(x)
@@ -10,7 +11,10 @@ class Coordinate:
     self.anomaly = False if anomaly is None else anomaly
 
   def __str__(self):
-    return str((self.x,self.y))
+    return str((self.x,self.y, self.anomaly))
+  def __repr__(self):
+    return repr(self.__dir__())
+  
 
 
 #a set of coordinates
@@ -39,6 +43,22 @@ class Line:
     self.calculate()
 
   #calcs best fit line
+
+
+  def __str__(self):
+    def construct(x,y):
+      return (x,y)
+    #sorts x and y 
+    mapped = map(construct, self.x_points, self.y_points)
+    
+    return list(mapped)
+
+    
+
+
+  def __repr__(self):
+    return repr(self.__dir__())
+
   def calculate(self):
     try:
       #array? of a,b,c... in ax^n + bx^n-1 + cx^n-2... 
@@ -132,7 +152,7 @@ class Line:
       self.invalid_y_points.append(coord.y)
 
 
-    return
+    return (coord.x, coord.y)
 
 
 
@@ -152,14 +172,14 @@ class Line:
           if x_points[i] == coord.x and y_points[i] == coord.y:
             return (x_points[i],y_points[i])
             #returns values as tuple else -1
-        return -1
+        return None
       elif coord.x <= midpoint_value_x:
         for i in range(len(x_points)):
           if x_points[len(x_points)-i] == coord.x and y_points[len(x_points)-i] == coord.y:
             return (x_points[len(x_points)-i],y_points[len(x_points)-i])
 
 
-        return -1
+        return None
     try:
       
       x_to_be_removed, y_to_be_removed = linear_search(coord)
@@ -171,7 +191,7 @@ class Line:
     self.y_points.remove(y_to_be_removed)
   
 
-    return
+    return (x_to_be_removed, y_to_be_removed)
 
 
 
@@ -267,8 +287,7 @@ def show_graph():
   plt.legend()
   plt.show()
 
+#saves graph to a path, with format
+def savefig(path, format):
+  plt.savefig(path, format=format)
 
-
-#new linestyle and pointstyle
-#.plot no longer shows graph, use show_graph
-#smoothen_graph=> smoothen_line
