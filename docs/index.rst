@@ -6,6 +6,8 @@ About
 =====
 bestFit is a module that uses matplotlib and numpy to plot the best fit line of a given set of coordinates.
 
+github page: https://github.com/SebassNoob/bestFit
+
 Quickstart
 ==========
 This is how to plot a basic graph based on a list of coordinates.
@@ -22,19 +24,20 @@ This is how to plot a basic graph based on a list of coordinates.
   my_coords = [(0,0),(1,3),(2,3),(4,7),( 8,0),(-1,0.33)]
   
 	def check_for_anomaly(x,y):
-	#checks for anomalies in points, eg: if the x coordinate of a given point is >1000, return True else return False
+	#checks for anomalies in points, eg: if the x coordinate of a given point is >1000, return True else return False (or None)
 	if x>1000:
 		return True
   	return None
-  line = bf.create_line_from_raw(coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
+  # creates a linear line from the given coordinates, with a green line and green points.
+  line = bf.create_line_from_raw(line_name="mygraph",linestyle="g-",pointstyle="go"coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
   line.plot()
+  show_graph()
   
 5. Then, run in console: ``python3 index.py``
-6. A graph with poins
+6. A line with name ``mygraph`` a green solid plotted line, and points on that line displayed as green circles, should be shown. 
 
 
-
-Classes
+**Classes**
 =========
 
 ``class Coordinate(x: str or float, y: str or float, anomaly: bool = False)``
@@ -65,7 +68,9 @@ Methods:
 
 returns (x,y)
 
+``__repr__``
 
+returns repr(self.__dir__())
 
 ``class Line(list_of_coords: list, n_power: int)``
 ========
@@ -76,6 +81,36 @@ A Line object. ``list_of_coords`` is a list containing Coordinate objects.
 
 Attributes:
 ----------
+
+``name`` (str, optional)
+
+The name of the line used and displayed in the legend.
+This defaults to a string of ``numpy.ndarray`` with the coefficients of the line.
+
+``linestyle`` (str) and ``pointstyle`` (str)
+
+The style of the best fit line and the points plotted. Defaults to "-" and "o" respectively.
+Available types:
+
+.. image:: ../assets/styles.jpeg
+  :width: 400
+  :alt: types of styles accepted
+.. image:: ../assets/colours.jpeg
+  :width: 400
+  :alt: types of colors accepted
+ 
+Adapted from https://matplotlib.org/2.1.2/api/_as_gen/matplotlib.pyplot.plot.html 
+
+eg:
+
+:: 
+
+  "b-" => a blue solid line
+  "w-." => a white dash-dot line
+  "ro" => red circle markers
+  "kx" => black x markers
+  
+
 ``x_points`` (list)
 
 A list of x points provided
@@ -92,21 +127,21 @@ A list of x points that are considered "anomalies". See Coordinate class.
 
 A list of y points that are considered "anomalies". See Coordinate class.
 
-``polynomial_coefficients`` (list-like)
+``polynomial_coefficients`` (list)
 
-The coefficients to the solved line equation. eg. [1.0 2.0 3.0] is x^2 + 2x + 3
+The coefficients to the solved line equation. eg. [1.0,2.0,3.0] is x^2 + 2x + 3
 
 ``solved_y`` (list)
 
-Defaults to y_points. If smoothen_graph is called (See smoothe_graph class function), this will contain more values for y solved with polynomial_coefficients.
+Defaults to y_points. If smoothen_line is called (See smoothe_line class function), this will contain more values for y solved with polynomial_coefficients.
 
 ``solved_x`` (list)
 
-Defaults to x_points. If smoothen_graph is called (See smoothe_graph class function), this will contain more values for x solved with polynomial_coefficients.
+Defaults to x_points. If smoothen_line is called (See smoothen_line class function), this will contain more values for x solved with polynomial_coefficients.
 
 ``self.smoothness`` (int)
 
-The "smoothness" of the graph. A greater value means more smooth.
+The "smoothness" of the graph. A greater value means more smooth. Defaults to None
 
 ``n`` (int)
 
@@ -115,15 +150,31 @@ The power of n used for calculation.
 
 Methods:
 --------
-``smoothen_graph(accuracy: int= None)``
 
-Smooths a graph. Useful when ``n_power > 1``
+``__str__``
+
+returns a list of tuples in the form (x,y)
+eg. ``[(0,0),(1,2),(2,4)]``
+
+``__repr__``
+
+returns repr(self.__dir__())
+
+``calculate()``
+
+Based on given valid points, this will find the coefficients of the polynomial of the best fit line, then calculate ``solved_x`` and ``solved_y``, then sort.
+
+returns None
+
+``smoothen_line(accuracy: int= None)``
+
+Smooths a line. Useful when ``n_power > 1``
 
 returns (self.solved_x, self.solved_y)
 
 ``plot()``
 
-Plots the graph.
+Plots the line, but does not show it.
 
 returns None
 
@@ -131,18 +182,31 @@ returns None
 
 Adds a point to the Line object. Parameter passed must be a Coordinate object. eg. ``line.add_point(Coordinate(1,2))``
 
-returns None
+returns (x,y) where x and y are the x and y values of the Coordinate object.
 
 ``remove_point(coord: Coordinate)``
 
 Removes a point from the Line object. Parameter passed must be a Coordinate object. eg. ``line.remove_point(Coordinate(6,9))``
 
-returns None
+returns (x,y) where x and y are the x and y values of the Coordinate object.
 
-Functions
+
+
+**Functions**
 ===========
 
-``create_line_from_file(*,path: str, n_power: int=1, anomaly_check)``
+Note: args marked after ``*`` are keyword-specified. Google "python **kwargs" for more info.
+
+eg:
+.. code-block:: python
+  import bestFit.main as bf
+  
+  #where some_method is defined as follows:
+  #some_method(arg1,*,arg2)
+  
+  bf.some_method(2,arg2="hello world")
+  
+``create_line_from_file(*,line_name:str =None,linestyle = None,pointstyle=None, path: str, n_power: int=1, anomaly_check=None)``
 =============
 Creates a line from a .txt (only) file.
 An example of a txt file:
@@ -150,16 +214,16 @@ An example of a txt file:
 ::
 
   1,2
-
   3,4
-
   5,6
-
   -1.2,4
-
   0,0
 
+line_name (str, optional): the name of the line to be shown on the legend. Defaults to the coefficients of the polynomial of the line.
 
+linestyle (str): The style of the line. See the Line.linestyle attribute for list of accepted styles.
+
+pointstyle (str): The style of the points. See the Line.pointstyle attribute for list of accepted styles.
 
 path (str): the path to your file
 
@@ -179,13 +243,19 @@ eg.
 Returns a ``Line()`` object.
 
 
-``create_line_from_raw(*,coords:list, n_power: int=1, anomaly_check=None)`` 
+``create_line_from_raw(*,line_name:str =None,linestyle = None, pointstyle = None,coords:list, n_power: int=1, anomaly_check=None)`` 
 ===================
 Creates a line from a list of tuples containing x,y points.
 
 coords (list): list of coords
 
 eg. ``hi = [(0,0),(1,1),(2,3)]``
+
+line_name (str, optional): the name of the line to be shown on the legend. Defaults to the coefficients of the polynomial of the line.
+
+linestyle (str): The style of the line. See the Line.linestyle attribute for list of accepted styles.
+
+pointstyle (str): The style of the points. See the Line.pointstyle attribute for list of accepted styles.
 
 n_power (int, optional): the n_power of your line (See Line object)
 
@@ -202,5 +272,27 @@ eg.
 
 
 Returns a ``Line()`` object.
+
+``show_graph(block=None)``
+=====
+
+The MOST IMPORTANT METHOD. Shows the entire graph based on the Line() classes initialised.
+
+block (bool, optional): Blocks the code flow to show the graph. Defaults to True.
+
+``close_graph()``
+======
+
+Closes the current graph displayed. 
+
+``save_fig(path, format)``
+=====
+
+Saves the graph to a specified filename. 
+
+path (str): Path of the file one wants to save to. 
+
+format (str, optional): Format of the file saved. Defaults to "png"
+
 
 The end:)

@@ -3,6 +3,7 @@ import numpy as np
 import math
 import statistics
 
+
 class Coordinate:
   def __init__(self, x: str or float, y: str or float, anomaly: bool = False):
     self.x = float(x)
@@ -10,14 +11,19 @@ class Coordinate:
     self.anomaly = False if anomaly is None else anomaly
 
   def __str__(self):
-    return str((self.x,self.y))
+    return str((self.x,self.y, self.anomaly))
+  def __repr__(self):
+    return repr(self.__dir__())
+  
 
 
 #a set of coordinates
 class Line:
-  def __init__(self, list_of_coords: list, n_power: int, linestyle: str ="-", name:str = None):
+  def __init__(self, list_of_coords: list, n_power: int, linestyle: str , pointstyle: str,name:str = None):
     self.name = name
-    self.linestyle = linestyle
+    
+    self.pointstyle = "o" if pointstyle is None else pointstyle
+    self.linestyle = "-" if linestyle is None else linestyle
     self.x_points = []
     self.y_points = []
     self.invalid_x_points=[]
@@ -34,26 +40,44 @@ class Line:
         self.invalid_x_points.append(coord.x)
         self.invalid_y_points.append(coord.y)
 
+    self.calculate()
+
+  #calcs best fit line
+
+
+  def __str__(self):
+    def construct(x,y):
+      return (x,y)
+    #sorts x and y 
+    mapped = map(construct, self.x_points, self.y_points)
     
+    return list(mapped)
+
+    
+
+
+  def __repr__(self):
+    return repr(self.__dir__())
+
+  def calculate(self):
     try:
       #array? of a,b,c... in ax^n + bx^n-1 + cx^n-2... 
       self.polynomial_coefficients = np.polyfit(self.x_points, self.y_points, self.n)
-
+      if self.name is None:
+        self.name = self.polynomial_coefficients.tolist()
 
     except TypeError:
       raise IndexError("number of points must be >= 1")
     #default value of solved x and y
     unsorted_solved_y =  np.polyval(self.polynomial_coefficients,self.x_points)
     unsorted_solved_x = self.x_points
-
-    #sorts x and y 
-    x_y = []
     #constructs tuple of x,y coords
-    for num in unsorted_solved_x:
-      tuple_constructor = (num, unsorted_solved_y[unsorted_solved_x.index(num)])
-      x_y.append(tuple_constructor)
+    def construct(x,y):
+      return (x,y)
+    #sorts x and y 
+    mapped = map(construct, unsorted_solved_x,unsorted_solved_y)
     #sorts based on x value
-    x_y = sorted(x_y)
+    x_y = sorted(list(mapped))
 
     #unpack tuple
     for tuple in x_y:
@@ -61,14 +85,14 @@ class Line:
       self.solved_x.append(tuple[0])
       self.solved_y.append(tuple[1])
 
-    
-    
 
-
+    return
+    
 
   
-
-  def smoothen_graph(self, accuracy: int= None):
+  #also calcs best line but with set x coords
+  def smoothen_line(self, accuracy: int= None):
+    self.calculate()
     if accuracy is None:
       return
     # defines maximum x point and minimum x point
@@ -79,38 +103,41 @@ class Line:
       
       try:
         
-        average_dist.append(self.x_points[i+1] - self.x_points[i])
+        average_dist.append(abs(self.x_points[i+1] - self.x_points[i]))
       except IndexError:
         break
 
 
-    mean = abs(statistics.mean(average_dist))
+    mean = statistics.mean(average_dist)
 
     new_points = []
     
-    while range_min <= range_max:
+    while range_min <= (range_max+mean/accuracy):
       new_points.append(range_min)
       range_min+= mean/accuracy
-      
-
+  
+    
 
     
     #solves for y given eqn and x
     self.smoothness = accuracy
     self.solved_x = new_points
-    self.solved_y = np.polyval(self.polynomial_coefficients,new_points)
-
+    
+    self.solved_y = np.polyval(self.polynomial_coefficients,new_points).tolist()
+    
     return (self.solved_x, self.solved_y)
 
   #actually plots a line 
-  def single_plot(self):
+  def plot(self):
+
+  #plots line
+    plt.plot(self.solved_x,self.solved_y,self.linestyle,label = self.name) 
+
+  #plots points
+
+    plt.plot(self.x_points+self.invalid_x_points,self.y_points+self.invalid_y_points, self.pointstyle)
+
     
-
-    plt.plot(self.solved_x,self.solved_y,'-') 
-
-    plt.plot(self.x_points+self.invalid_x_points,self.y_points+self.invalid_y_points,'o')
-    plt.show()
-
     return 
 
 
@@ -124,8 +151,8 @@ class Line:
       self.invalid_x_points.append(coord.x)
       self.invalid_y_points.append(coord.y)
 
-    return
 
+    return (coord.x, coord.y)
 
 
 
@@ -145,14 +172,14 @@ class Line:
           if x_points[i] == coord.x and y_points[i] == coord.y:
             return (x_points[i],y_points[i])
             #returns values as tuple else -1
-        return -1
+        return None
       elif coord.x <= midpoint_value_x:
         for i in range(len(x_points)):
           if x_points[len(x_points)-i] == coord.x and y_points[len(x_points)-i] == coord.y:
             return (x_points[len(x_points)-i],y_points[len(x_points)-i])
 
 
-        return -1
+        return None
     try:
       
       x_to_be_removed, y_to_be_removed = linear_search(coord)
@@ -162,9 +189,9 @@ class Line:
     
     self.x_points.remove(x_to_be_removed)
     self.y_points.remove(y_to_be_removed)
+  
 
-
-    return
+    return (x_to_be_removed, y_to_be_removed)
 
 
 
@@ -177,12 +204,8 @@ class Line:
 
 
 
-
-
-    
-
 #plots coordinates in a txt file
-def create_line_from_file(*,line_name:str =None,linestyle = None, path: str, n_power: int=1, anomaly_check=None):
+def create_line_from_file(*,line_name:str =None,linestyle = None,pointstyle=None, path: str, n_power: int=1, anomaly_check=None):
   #test anomaly_check function
   if anomaly_check:
     try:
@@ -220,7 +243,7 @@ def create_line_from_file(*,line_name:str =None,linestyle = None, path: str, n_p
       points.append(coord)
     f.close()
     
-    line = Line(points, n_power, linestyle, line_name)
+    line = Line(points, n_power, linestyle,pointstyle, line_name)
     return line
 
 
@@ -228,7 +251,7 @@ def create_line_from_file(*,line_name:str =None,linestyle = None, path: str, n_p
 
     
 #uses a list of tuples as coordinates
-def create_line_from_raw(*,line_name:str =None,linestyle = None,coords:list, n_power: int=1, anomaly_check=None):
+def create_line_from_raw(*,line_name:str =None,linestyle = None, pointstyle = None,coords:list, n_power: int=1, anomaly_check=None):
 
   #test anomaly_check
   if anomaly_check:
@@ -252,7 +275,22 @@ def create_line_from_raw(*,line_name:str =None,linestyle = None,coords:list, n_p
       coord = Coordinate(x,y)
           
     points.append(coord)
-  line = Line(points, n_power, linestyle, line_name)
+  line = Line(points, n_power, linestyle,pointstyle, line_name)
 
   return line
+
+
+
+
+
+def show_graph(block=None):
+  plt.legend()
+  plt.show(block=block or True)
+
+def close_graph():
+  plt.close()
+
+#saves graph to a path, with format
+def save_fig(path, format=None):
+  plt.savefig(path, format=format or "png")
 
