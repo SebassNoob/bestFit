@@ -1,11 +1,17 @@
 .replit
 LICENCE.rst
 README.md
+SECURITY.md
 poetry.lock
 pyproject.toml
 replit.nix
 setup.cfg
 setup.py
+.github/labeler.yml
+.github/workflows/codeql.yml
+.github/workflows/labeler.yml
+assets/colours.jpeg
+assets/styles.jpeg
 docs/index.rst
 src/bestFit/__init__.py
 src/bestFit/main.py
@@ -14,6 +20,9 @@ src/bestFit.egg-info/SOURCES.txt
 src/bestFit.egg-info/dependency_links.txt
 src/bestFit.egg-info/requires.txt
 src/bestFit.egg-info/top_level.txt
+src/bestFit/__pycache__/main.cpython-38.pyc
+tests/2_quad_lines.py
+tests/linear_line.py
 venv/lib64
 venv/pyvenv.cfg
 venv/bin/activate
@@ -1464,6 +1473,7 @@ venv/lib/python3.8/site-packages/importlib_metadata-4.11.3.dist-info/RECORD
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/__init__.cpython-38.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/__init__.cpython-39.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_adapters.cpython-38.pyc
+venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_adapters.cpython-39.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_collections.cpython-38.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_collections.cpython-39.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_compat.cpython-38.pyc
@@ -1473,7 +1483,9 @@ venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_functools.cpyth
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_itertools.cpython-38.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_meta.cpython-38.pyc
+venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_meta.cpython-39.pyc
 venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_text.cpython-38.pyc
+venv/lib/python3.8/site-packages/importlib_metadata/__pycache__/_text.cpython-39.pyc
 venv/lib/python3.8/site-packages/jedi-0.15.2.dist-info/INSTALLER
 venv/lib/python3.8/site-packages/jedi-0.15.2.dist-info/RECORD
 venv/lib/python3.8/site-packages/jedi-0.15.2.dist-info/REQUESTED
