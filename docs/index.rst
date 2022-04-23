@@ -28,12 +28,13 @@ This is how to plot a basic graph based on a list of coordinates.
 	if x>1000:
 		return True
   	return None
+  # creates a linear line from the given coordinates, with a green line and green points.
   line = bf.create_line_from_raw(line_name="mygraph",linestyle="g-",pointstyle="go"coords = my_coords, n_power =1 , anomaly_check = check_for_anomaly)
   line.plot()
   show_graph()
   
 5. Then, run in console: ``python3 index.py``
-6. A line with name ``mygraph`` a green solid plotted line, and points on that line displayed as green circles, sould be shown. 
+6. A line with name ``mygraph`` a green solid plotted line, and points on that line displayed as green circles, should be shown. 
 
 
 **Classes**
@@ -67,7 +68,9 @@ Methods:
 
 returns (x,y)
 
+``__repr__``
 
+returns repr(self.__dir__())
 
 ``class Line(list_of_coords: list, n_power: int)``
 ========
@@ -79,12 +82,12 @@ A Line object. ``list_of_coords`` is a list containing Coordinate objects.
 Attributes:
 ----------
 
-``name`` (str)
+``name`` (str, optional)
 
 The name of the line used and displayed in the legend.
 This defaults to a string of ``numpy.ndarray`` with the coefficients of the line.
 
-``linestyle`` (str) and ``pointstyle``
+``linestyle`` (str) and ``pointstyle`` (str)
 
 The style of the best fit line and the points plotted. Defaults to "-" and "o" respectively.
 Available types:
@@ -147,6 +150,16 @@ The power of n used for calculation.
 
 Methods:
 --------
+
+``__str__``
+
+returns a list of tuples in the form (x,y)
+eg. ``[(0,0),(1,2),(2,4)]``
+
+``__repr__``
+
+returns repr(self.__dir__())
+
 ``calculate()``
 
 Based on given valid points, this will find the coefficients of the polynomial of the best fit line, then calculate ``solved_x`` and ``solved_y``, then sort.
@@ -169,17 +182,30 @@ returns None
 
 Adds a point to the Line object. Parameter passed must be a Coordinate object. eg. ``line.add_point(Coordinate(1,2))``
 
-returns None
+returns (x,y) where x and y are the x and y values of the Coordinate object.
 
 ``remove_point(coord: Coordinate)``
 
 Removes a point from the Line object. Parameter passed must be a Coordinate object. eg. ``line.remove_point(Coordinate(6,9))``
 
-returns None
+returns (x,y) where x and y are the x and y values of the Coordinate object.
+
+
 
 **Functions**
 ===========
 
+Note: args marked after ``*`` are keyword-specified. Google "python **kwargs" for more info.
+
+eg:
+.. code-block:: python
+  import bestFit.main as bf
+  
+  #where some_method is defined as follows:
+  #some_method(arg1,*,arg2)
+  
+  bf.some_method(2,arg2="hello world")
+  
 ``create_line_from_file(*,line_name:str =None,linestyle = None,pointstyle=None, path: str, n_power: int=1, anomaly_check=None)``
 =============
 Creates a line from a .txt (only) file.
@@ -246,5 +272,27 @@ eg.
 
 
 Returns a ``Line()`` object.
+
+``show_graph(block=None)``
+=====
+
+The MOST IMPORTANT METHOD. Shows the entire graph based on the Line() classes initialised.
+
+block (bool, optional): Blocks the code flow to show the graph. Defaults to True.
+
+``close_graph()``
+======
+
+Closes the current graph displayed. 
+
+``save_fig(path, format)``
+=====
+
+Saves the graph to a specified filename. 
+
+path (str): Path of the file one wants to save to. 
+
+format (str, optional): Format of the file saved. Defaults to "png"
+
 
 The end:)
