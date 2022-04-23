@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(1,'src/bestFit')
 import main as bf
-
+import time
 
 
 line = bf.create_line_from_raw(coords = [(0,1),(9,2),(1,3),(4,7),(2,12),(-12,-2),(0,-2)], n_power = 2, linestyle = "b--")
@@ -16,4 +16,6 @@ line.plot()
 
 
 bf.show_graph()
-bf.savefig("./graph","png")
+time.sleep(10)
+
+bf.save_fig("./graph")
