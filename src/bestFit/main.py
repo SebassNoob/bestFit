@@ -64,7 +64,7 @@ class Line:
       #array? of a,b,c... in ax^n + bx^n-1 + cx^n-2... 
       self.polynomial_coefficients = np.polyfit(self.x_points, self.y_points, self.n)
       if self.name is None:
-        self.name = self.polynomial_coefficients.toList()
+        self.name = self.polynomial_coefficients.tolist()
 
     except TypeError:
       raise IndexError("number of points must be >= 1")
@@ -283,11 +283,14 @@ def create_line_from_raw(*,line_name:str =None,linestyle = None, pointstyle = No
 
 
 
-def show_graph():
+def show_graph(block=None):
   plt.legend()
-  plt.show()
+  plt.show(block=block or True)
+
+def close_graph():
+  plt.close()
 
 #saves graph to a path, with format
-def savefig(path, format):
-  plt.savefig(path, format=format)
+def save_fig(path, format=None):
+  plt.savefig(path, format=format or "png")
 
