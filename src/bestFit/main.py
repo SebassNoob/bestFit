@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import statistics
+import json
 
 class Coordinate:
   def __init__(self, x: str or float, y: str or float, anomaly: bool = False):
@@ -10,7 +11,10 @@ class Coordinate:
     self.anomaly = False if anomaly is None else anomaly
 
   def __str__(self):
-    return str((self.x,self.y))
+    return str((self.x,self.y, self.anomaly))
+  def __repr__(self):
+    return repr(self.__dir__())
+  
 
 
 #a set of coordinates
@@ -39,6 +43,22 @@ class Line:
     self.calculate()
 
   #calcs best fit line
+
+
+  def __str__(self):
+    def construct(x,y):
+      return (x,y)
+    #sorts x and y 
+    mapped = map(construct, self.x_points, self.y_points)
+    
+    return list(mapped)
+
+    
+
+
+  def __repr__(self):
+    return repr(self.__dir__())
+
   def calculate(self):
     try:
       #array? of a,b,c... in ax^n + bx^n-1 + cx^n-2... 
@@ -267,8 +287,7 @@ def show_graph():
   plt.legend()
   plt.show()
 
+#saves graph to a path, with format
+def savefig(path, format):
+  plt.savefig(path, format=format)
 
-
-#new linestyle and pointstyle
-#.plot no longer shows graph, use show_graph
-#smoothen_graph=> smoothen_line

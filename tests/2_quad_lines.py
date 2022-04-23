@@ -16,4 +16,4 @@ line.plot()
 
 
 bf.show_graph()
-
+bf.savefig("./graph","png")
