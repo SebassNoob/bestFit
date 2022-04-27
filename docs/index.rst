@@ -4,9 +4,18 @@ bestFit
 
 About
 =====
-bestFit is a module that uses matplotlib and numpy to plot the best fit line of a given set of coordinates.
+bestFit is a synchronous python module that uses matplotlib and numpy to plot the best fit line of a given set of coordinates.
 
-github page: https://github.com/SebassNoob/bestFit
+Github page: https://github.com/SebassNoob/bestFit
+
+Dependencies:
+::
+  matplotlib
+  numpy
+
+To import: use ``import bestFit.main as bf`` 
+
+* take note of the capitalisation.
 
 Quickstart
 ==========
