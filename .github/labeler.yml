@@ -1,0 +1,11 @@
+code changes:
+- src/**/*
+
+
+docs: 
+- docs/*
+
+.md/.rst changes:
+- README.md
+- SECURITY.md
+- LICENCE.rst

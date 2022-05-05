@@ -1,6 +1,7 @@
 ## bestFit
 
 [![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=stable)](https://pip.pypa.io/en/stable/?badge=stable)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SebassNoob_bestFit&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SebassNoob_bestFit)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/sebass-but-ab/bestFit.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sebass-but-ab/bestFit/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/SebassNoob/bestFit.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SebassNoob/bestFit/alerts/)
 
@@ -14,9 +15,6 @@ Installation:
 
 In a .py file, import with ``import bestFit.main``.
 See the docs for the list of available classes and methods to use, which is the section following ``quickstart``.
-
-In a .py file, import with ``import bestFit.main``.
-See the docs for the list of available classes and methods, which is the section following ``quickstart``.
 
 Docs: https://bestfit.readthedocs.io/en/latest/
 

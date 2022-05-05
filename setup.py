@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
   name = "bestFit",
   version='0.3',
-  licence ="MIT",
+  license ="MIT",
   author = "SebassNoob",
   description="A package for plotting best fit lines.",
   long_description=open("README.md","r").read(),
